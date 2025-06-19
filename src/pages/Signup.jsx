@@ -94,8 +94,12 @@ const Signup = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Signup attempt:", formData);
       // Here you would make actual API call to register
-      // On success, redirect to dashboard
-      navigate("/dashboard");
+      // On success, redirect based on user type
+      if (formData.userType === "student") {
+        navigate("/student");
+      } else {
+        navigate("/dashboard"); // Admin goes to dashboard
+      }
     } catch (error) {
       console.error("Signup error:", error);
       alert("Signup failed. Please try again.");

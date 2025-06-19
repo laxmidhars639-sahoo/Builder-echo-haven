@@ -65,8 +65,12 @@ const Login = () => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Login attempt:", formData);
       // Here you would make actual API call to login
-      // On success, redirect to dashboard
-      navigate("/dashboard");
+      // On success, redirect based on user type
+      if (formData.userType === "student") {
+        navigate("/student");
+      } else {
+        navigate("/dashboard"); // Admin goes to dashboard
+      }
     } catch (error) {
       console.error("Login error:", error);
       alert("Login failed. Please try again.");
