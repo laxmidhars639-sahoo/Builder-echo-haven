@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,7 @@ const Login = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,9 +65,11 @@ const Login = () => {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Login attempt:", formData);
       // Here you would make actual API call to login
-      alert(`Login successful as ${formData.userType}!`);
+      // On success, redirect to dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
+      alert("Login failed. Please try again.");
     } finally {
       setIsLoading(false);
     }

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -20,6 +20,7 @@ const Signup = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -93,9 +94,11 @@ const Signup = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Signup attempt:", formData);
       // Here you would make actual API call to register
-      alert(`Account created successfully as ${formData.userType}!`);
+      // On success, redirect to dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Signup error:", error);
+      alert("Signup failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
