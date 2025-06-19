@@ -69,7 +69,7 @@ const Login = () => {
       if (formData.userType === "student") {
         navigate("/student");
       } else {
-        navigate("/dashboard"); // Admin goes to dashboard
+        navigate("/admin"); // Admin goes to admin page
       }
     } catch (error) {
       console.error("Login error:", error);
