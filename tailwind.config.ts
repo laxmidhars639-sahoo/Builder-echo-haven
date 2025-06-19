@@ -19,6 +19,13 @@ export default {
     },
     extend: {
       colors: {
+        aviation: {
+          blue: "#3B82F6",
+          navy: "#1E40AF",
+          sky: "#0EA5E9",
+          slate: "#64748B",
+          white: "#FFFFFF",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
