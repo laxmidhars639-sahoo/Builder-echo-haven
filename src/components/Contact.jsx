@@ -134,21 +134,6 @@ const Contact = () => {
                 </CardContent>
               </Card>
             ))}
-
-            {/* Map placeholder */}
-            <Card className="shadow-md">
-              <CardContent className="p-0">
-                <div className="h-64 bg-gray-200 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                    <p className="text-gray-600">Interactive Map</p>
-                    <p className="text-sm text-gray-500">
-                      123 Aviation Blvd, Sky City, SC
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
           </div>
         </div>
       </div>
