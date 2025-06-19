@@ -1,9 +1,23 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Plane } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const Navigation = () => {
   const location = useLocation();
+
+  // Handle scrolling when page loads with hash
+  useEffect(() => {
+    if (location.pathname === "/" && location.hash) {
+      const sectionId = location.hash.substring(1); // Remove the #
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100); // Small delay to ensure page is loaded
+    }
+  }, [location]);
 
   const handleSectionClick = (sectionId) => {
     // If we're on the homepage, scroll to section
