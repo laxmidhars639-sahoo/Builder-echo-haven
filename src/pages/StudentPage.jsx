@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,10 +20,12 @@ import {
 } from "lucide-react";
 
 const StudentPage = () => {
+  const { user, enrollInCourse } = useUser();
+
   const [enrollmentData, setEnrollmentData] = useState({
-    name: "",
-    email: "",
-    contactNumber: "",
+    name: user?.name || "",
+    email: user?.email || "",
+    contactNumber: user?.phone || "",
     gender: "",
     paymentMode: "",
     installments: "",
@@ -137,15 +140,35 @@ const StudentPage = () => {
     try {
       // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Find the selected course details
+      const selectedCourse = courses.find(
+        (c) => c.id === enrollmentData.selectedCourse,
+      );
+
+      // Store enrollment in user context
+      const enrollmentRecord = {
+        courseId: enrollmentData.selectedCourse,
+        courseName: selectedCourse?.title,
+        enrollmentDate: new Date().toISOString(),
+        status: "enrolled",
+        paymentMode: enrollmentData.paymentMode,
+        installments: enrollmentData.installments,
+        progress: 0,
+      };
+
+      enrollInCourse(enrollmentRecord);
+
       console.log("Enrollment data:", enrollmentData);
       alert(
-        "Enrollment successful! You will receive confirmation email shortly.",
+        `Enrollment successful for ${selectedCourse?.title}! You will receive confirmation email shortly.`,
       );
-      // Reset form
+
+      // Reset form but keep user data
       setEnrollmentData({
-        name: "",
-        email: "",
-        contactNumber: "",
+        name: user?.name || "",
+        email: user?.email || "",
+        contactNumber: user?.phone || "",
         gender: "",
         paymentMode: "",
         installments: "",
@@ -170,10 +193,10 @@ const StudentPage = () => {
             <div className="flex justify-between items-center">
               <div className="text-center flex-1">
                 <h1 className="text-3xl font-bold text-gray-900">
-                  Student Portal
+                  Welcome, {user?.name || "Student"}!
                 </h1>
                 <p className="text-gray-600 mt-2">
-                  Welcome to your pilot training journey
+                  Your pilot training journey starts here
                 </p>
               </div>
               <div className="flex items-center space-x-4">
@@ -204,7 +227,9 @@ const StudentPage = () => {
                     <p className="text-sm font-medium text-gray-600">
                       Flight Hours
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">0</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {user?.flightHours || 0}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -220,7 +245,9 @@ const StudentPage = () => {
                     <p className="text-sm font-medium text-gray-600">
                       Courses Enrolled
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">0</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {user?.enrolledCourses?.length || 0}
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -236,7 +263,9 @@ const StudentPage = () => {
                     <p className="text-sm font-medium text-gray-600">
                       Certificates
                     </p>
-                    <p className="text-2xl font-bold text-gray-900">0</p>
+                    <p className="text-2xl font-bold text-gray-900">
+                      {user?.certificates || 0}
+                    </p>
                   </div>
                 </div>
               </CardContent>

@@ -2,6 +2,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/contexts/UserContext";
 import {
   User,
   BookOpen,
@@ -14,33 +15,34 @@ import {
 } from "lucide-react";
 
 const Dashboard = () => {
-  // In a real app, this would come from authentication context/props
-  const userType = "student"; // or "admin"
-  const userName = "John Doe";
+  const { user, logout } = useUser();
+
+  const userType = user?.userType || "student";
+  const userName = user?.name || "User";
 
   const studentStats = [
     {
       icon: Clock,
       label: "Flight Hours",
-      value: "45.2",
+      value: user?.flightHours?.toString() || "0",
       color: "text-blue-600",
     },
     {
       icon: BookOpen,
-      label: "Lessons Completed",
-      value: "12",
+      label: "Courses Enrolled",
+      value: user?.enrolledCourses?.length?.toString() || "0",
       color: "text-green-600",
     },
     {
       icon: Calendar,
       label: "Next Lesson",
-      value: "Tomorrow",
+      value: user?.enrolledCourses?.length > 0 ? "Tomorrow" : "Not Scheduled",
       color: "text-orange-600",
     },
     {
       icon: Award,
       label: "Certificates",
-      value: "2",
+      value: user?.certificates?.toString() || "0",
       color: "text-purple-600",
     },
   ];
@@ -89,7 +91,14 @@ const Dashboard = () => {
                   <Settings className="h-4 w-4 mr-2" />
                   Settings
                 </Button>
-                <Button variant="outline" size="sm">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    logout();
+                    window.location.href = "/";
+                  }}
+                >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </Button>

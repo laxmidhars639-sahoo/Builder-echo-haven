@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useUser();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,12 +66,28 @@ const Login = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       console.log("Login attempt:", formData);
-      // Here you would make actual API call to login
-      // On success, redirect based on user type
+
+      // Simulate user data (in real app, this would come from API)
+      const userData = {
+        id: Date.now(), // Simple ID generation
+        email: formData.email,
+        userType: formData.userType,
+        name: formData.email.split("@")[0], // Extract name from email
+        flightHours:
+          formData.userType === "student" ? Math.floor(Math.random() * 100) : 0,
+        enrolledCourses: [],
+        certificates:
+          formData.userType === "student" ? Math.floor(Math.random() * 3) : 0,
+      };
+
+      // Store user data in context
+      login(userData);
+
+      // Redirect based on user type
       if (formData.userType === "student") {
         navigate("/student");
       } else {
-        navigate("/admin"); // Admin goes to admin page
+        navigate("/admin");
       }
     } catch (error) {
       console.error("Login error:", error);

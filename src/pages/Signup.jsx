@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "@/contexts/UserContext";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ const Signup = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useUser();
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -93,12 +95,29 @@ const Signup = () => {
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
       console.log("Signup attempt:", formData);
-      // Here you would make actual API call to register
-      // On success, redirect based on user type
+
+      // Create user data from signup form
+      const userData = {
+        id: Date.now(), // Simple ID generation
+        email: formData.email,
+        userType: formData.userType,
+        name: `${formData.firstName} ${formData.lastName}`,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phone: formData.phone,
+        flightHours: 0, // New user starts with 0 hours
+        enrolledCourses: [],
+        certificates: 0,
+      };
+
+      // Store user data in context
+      login(userData);
+
+      // Redirect based on user type
       if (formData.userType === "student") {
         navigate("/student");
       } else {
-        navigate("/admin"); // Admin goes to admin page
+        navigate("/admin");
       }
     } catch (error) {
       console.error("Signup error:", error);
