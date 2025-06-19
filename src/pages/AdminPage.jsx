@@ -29,7 +29,7 @@ const AdminPage = () => {
       duration: "6-12 months",
       price: "$8,500",
       description: "Learn to fly single-engine aircraft for personal use",
-      status: "active"
+      status: "active",
     },
     {
       id: "cpl",
@@ -37,7 +37,7 @@ const AdminPage = () => {
       duration: "12-18 months",
       price: "$25,000",
       description: "Advance your skills for commercial aviation careers",
-      status: "active"
+      status: "active",
     },
     {
       id: "instrument",
@@ -45,7 +45,7 @@ const AdminPage = () => {
       duration: "3-6 months",
       price: "$12,000",
       description: "Fly safely in all weather conditions",
-      status: "active"
+      status: "active",
     },
   ]);
 
@@ -59,7 +59,7 @@ const AdminPage = () => {
       paymentStatus: "Paid",
       accountDetails: "Active",
       enrollmentDate: "2024-01-15",
-      phone: "+1 (555) 123-4567"
+      phone: "+1 (555) 123-4567",
     },
     {
       id: "STU002",
@@ -70,7 +70,7 @@ const AdminPage = () => {
       paymentStatus: "Partial",
       accountDetails: "Active",
       enrollmentDate: "2024-01-14",
-      phone: "+1 (555) 234-5678"
+      phone: "+1 (555) 234-5678",
     },
     {
       id: "STU003",
@@ -81,7 +81,7 @@ const AdminPage = () => {
       paymentStatus: "Pending",
       accountDetails: "Pending",
       enrollmentDate: "2024-01-13",
-      phone: "+1 (555) 345-6789"
+      phone: "+1 (555) 345-6789",
     },
     {
       id: "STU004",
@@ -92,7 +92,7 @@ const AdminPage = () => {
       paymentStatus: "Paid",
       accountDetails: "Active",
       enrollmentDate: "2024-01-12",
-      phone: "+1 (555) 456-7890"
+      phone: "+1 (555) 456-7890",
     },
     {
       id: "STU005",
@@ -103,8 +103,8 @@ const AdminPage = () => {
       paymentStatus: "Paid",
       accountDetails: "Active",
       enrollmentDate: "2024-01-11",
-      phone: "+1 (555) 567-8901"
-    }
+      phone: "+1 (555) 567-8901",
+    },
   ]);
 
   const [newCourse, setNewCourse] = useState({
@@ -112,15 +112,21 @@ const AdminPage = () => {
     duration: "",
     price: "",
     description: "",
-    status: "active"
-  ]);
+    status: "active",
+  });
   const [editingCourse, setEditingCourse] = useState(null);
 
   const handleAddCourse = () => {
     if (newCourse.title && newCourse.duration && newCourse.price) {
-      const courseId = newCourse.title.toLowerCase().replace(/\s+/g, '-');
+      const courseId = newCourse.title.toLowerCase().replace(/\s+/g, "-");
       setCourses([...courses, { ...newCourse, id: courseId }]);
-      setNewCourse({ title: "", duration: "", price: "", description: "", status: "active" });
+      setNewCourse({
+        title: "",
+        duration: "",
+        price: "",
+        description: "",
+        status: "active",
+      });
       alert("Course added successfully!");
     }
   };
@@ -131,17 +137,25 @@ const AdminPage = () => {
   };
 
   const handleUpdateCourse = () => {
-    setCourses(courses.map(course =>
-      course.id === editingCourse.id ? newCourse : course
-    ));
+    setCourses(
+      courses.map((course) =>
+        course.id === editingCourse.id ? newCourse : course,
+      ),
+    );
     setEditingCourse(null);
-    setNewCourse({ title: "", duration: "", price: "", description: "", status: "active" });
+    setNewCourse({
+      title: "",
+      duration: "",
+      price: "",
+      description: "",
+      status: "active",
+    });
     alert("Course updated successfully!");
   };
 
   const handleDeleteCourse = (courseId) => {
     if (window.confirm("Are you sure you want to delete this course?")) {
-      setCourses(courses.filter(course => course.id !== courseId));
+      setCourses(courses.filter((course) => course.id !== courseId));
       alert("Course deleted successfully!");
     }
   };
@@ -429,29 +443,52 @@ const AdminPage = () => {
                         <Users className="h-6 w-6 mr-3 text-aviation-blue" />
                         List of Students
                       </CardTitle>
-                      <p className="text-gray-600">Manage all student enrollments and data</p>
+                      <p className="text-gray-600">
+                        Manage all student enrollments and data
+                      </p>
                     </CardHeader>
                     <CardContent>
                       <div className="overflow-x-auto">
                         <table className="w-full border-collapse">
                           <thead>
                             <tr className="border-b bg-gray-50">
-                              <th className="text-left p-4 font-semibold text-gray-900">Student Name</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Student ID</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Course Name</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Gender</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Payment Status</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Account Details</th>
-                              <th className="text-left p-4 font-semibold text-gray-900">Actions</th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Student Name
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Student ID
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Course Name
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Gender
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Payment Status
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Account Details
+                              </th>
+                              <th className="text-left p-4 font-semibold text-gray-900">
+                                Actions
+                              </th>
                             </tr>
                           </thead>
                           <tbody>
                             {students.map((student, index) => (
-                              <tr key={student.id} className="border-b hover:bg-gray-50">
+                              <tr
+                                key={student.id}
+                                className="border-b hover:bg-gray-50"
+                              >
                                 <td className="p-4">
                                   <div>
-                                    <p className="font-medium text-gray-900">{student.name}</p>
-                                    <p className="text-sm text-gray-600">{student.email}</p>
+                                    <p className="font-medium text-gray-900">
+                                      {student.name}
+                                    </p>
+                                    <p className="text-sm text-gray-600">
+                                      {student.email}
+                                    </p>
                                   </div>
                                 </td>
                                 <td className="p-4">
@@ -460,28 +497,36 @@ const AdminPage = () => {
                                   </span>
                                 </td>
                                 <td className="p-4">
-                                  <p className="text-gray-900">{student.course}</p>
+                                  <p className="text-gray-900">
+                                    {student.course}
+                                  </p>
                                 </td>
                                 <td className="p-4">
-                                  <p className="text-gray-900">{student.gender}</p>
+                                  <p className="text-gray-900">
+                                    {student.gender}
+                                  </p>
                                 </td>
                                 <td className="p-4">
-                                  <span className={`px-2 py-1 rounded text-sm font-medium ${
-                                    student.paymentStatus === "Paid"
-                                      ? "bg-green-100 text-green-800"
-                                      : student.paymentStatus === "Partial"
-                                      ? "bg-yellow-100 text-yellow-800"
-                                      : "bg-red-100 text-red-800"
-                                  }`}>
+                                  <span
+                                    className={`px-2 py-1 rounded text-sm font-medium ${
+                                      student.paymentStatus === "Paid"
+                                        ? "bg-green-100 text-green-800"
+                                        : student.paymentStatus === "Partial"
+                                          ? "bg-yellow-100 text-yellow-800"
+                                          : "bg-red-100 text-red-800"
+                                    }`}
+                                  >
                                     {student.paymentStatus}
                                   </span>
                                 </td>
                                 <td className="p-4">
-                                  <span className={`px-2 py-1 rounded text-sm font-medium ${
-                                    student.accountDetails === "Active"
-                                      ? "bg-green-100 text-green-800"
-                                      : "bg-yellow-100 text-yellow-800"
-                                  }`}>
+                                  <span
+                                    className={`px-2 py-1 rounded text-sm font-medium ${
+                                      student.accountDetails === "Active"
+                                        ? "bg-green-100 text-green-800"
+                                        : "bg-yellow-100 text-yellow-800"
+                                    }`}
+                                  >
                                     {student.accountDetails}
                                   </span>
                                 </td>
@@ -524,7 +569,12 @@ const AdminPage = () => {
                           </label>
                           <Input
                             value={newCourse.title}
-                            onChange={(e) => setNewCourse({...newCourse, title: e.target.value})}
+                            onChange={(e) =>
+                              setNewCourse({
+                                ...newCourse,
+                                title: e.target.value,
+                              })
+                            }
                             placeholder="Enter course title"
                           />
                         </div>
@@ -534,7 +584,12 @@ const AdminPage = () => {
                           </label>
                           <Input
                             value={newCourse.duration}
-                            onChange={(e) => setNewCourse({...newCourse, duration: e.target.value})}
+                            onChange={(e) =>
+                              setNewCourse({
+                                ...newCourse,
+                                duration: e.target.value,
+                              })
+                            }
                             placeholder="e.g., 6-12 months"
                           />
                         </div>
@@ -544,7 +599,12 @@ const AdminPage = () => {
                           </label>
                           <Input
                             value={newCourse.price}
-                            onChange={(e) => setNewCourse({...newCourse, price: e.target.value})}
+                            onChange={(e) =>
+                              setNewCourse({
+                                ...newCourse,
+                                price: e.target.value,
+                              })
+                            }
                             placeholder="e.g., $8,500"
                           />
                         </div>
@@ -554,7 +614,12 @@ const AdminPage = () => {
                           </label>
                           <select
                             value={newCourse.status}
-                            onChange={(e) => setNewCourse({...newCourse, status: e.target.value})}
+                            onChange={(e) =>
+                              setNewCourse({
+                                ...newCourse,
+                                status: e.target.value,
+                              })
+                            }
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-aviation-blue"
                           >
                             <option value="active">Active</option>
@@ -567,7 +632,12 @@ const AdminPage = () => {
                           </label>
                           <textarea
                             value={newCourse.description}
-                            onChange={(e) => setNewCourse({...newCourse, description: e.target.value})}
+                            onChange={(e) =>
+                              setNewCourse({
+                                ...newCourse,
+                                description: e.target.value,
+                              })
+                            }
                             placeholder="Enter course description"
                             rows="3"
                             className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-aviation-blue"
@@ -577,13 +647,22 @@ const AdminPage = () => {
                       <div className="flex space-x-4 mt-6">
                         {editingCourse ? (
                           <>
-                            <Button onClick={handleUpdateCourse} className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              onClick={handleUpdateCourse}
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Update Course
                             </Button>
                             <Button
                               onClick={() => {
                                 setEditingCourse(null);
-                                setNewCourse({ title: "", duration: "", price: "", description: "", status: "active" });
+                                setNewCourse({
+                                  title: "",
+                                  duration: "",
+                                  price: "",
+                                  description: "",
+                                  status: "active",
+                                });
                               }}
                               variant="outline"
                             >
@@ -591,7 +670,10 @@ const AdminPage = () => {
                             </Button>
                           </>
                         ) : (
-                          <Button onClick={handleAddCourse} className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                          <Button
+                            onClick={handleAddCourse}
+                            className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                          >
                             <PlusCircle className="h-4 w-4 mr-2" />
                             Add Course
                           </Button>
@@ -608,19 +690,28 @@ const AdminPage = () => {
                     <CardContent>
                       <div className="grid grid-cols-1 gap-4">
                         {courses.map((course) => (
-                          <div key={course.id} className="border rounded-lg p-4 bg-gray-50">
+                          <div
+                            key={course.id}
+                            className="border rounded-lg p-4 bg-gray-50"
+                          >
                             <div className="flex justify-between items-start">
                               <div className="flex-1">
-                                <h3 className="text-lg font-semibold text-gray-900">{course.title}</h3>
-                                <p className="text-gray-600 text-sm mt-1">{course.description}</p>
+                                <h3 className="text-lg font-semibold text-gray-900">
+                                  {course.title}
+                                </h3>
+                                <p className="text-gray-600 text-sm mt-1">
+                                  {course.description}
+                                </p>
                                 <div className="flex space-x-4 mt-2 text-sm text-gray-500">
                                   <span>Duration: {course.duration}</span>
                                   <span>Price: {course.price}</span>
-                                  <span className={`px-2 py-1 rounded ${
-                                    course.status === "active"
-                                      ? "bg-green-100 text-green-800"
-                                      : "bg-red-100 text-red-800"
-                                  }`}>
+                                  <span
+                                    className={`px-2 py-1 rounded ${
+                                      course.status === "active"
+                                        ? "bg-green-100 text-green-800"
+                                        : "bg-red-100 text-red-800"
+                                    }`}
+                                  >
                                     {course.status}
                                   </span>
                                 </div>
@@ -659,7 +750,9 @@ const AdminPage = () => {
                         <BookOpen className="h-6 w-6 mr-3 text-aviation-blue" />
                         Manage Task
                       </CardTitle>
-                      <p className="text-gray-600">Manage administrative tasks and operations</p>
+                      <p className="text-gray-600">
+                        Manage administrative tasks and operations
+                      </p>
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -673,7 +766,10 @@ const AdminPage = () => {
                             <p className="text-sm text-gray-600 mb-4">
                               Review and update student progress reports
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Start Review
                             </Button>
                           </CardContent>
@@ -686,9 +782,13 @@ const AdminPage = () => {
                               Schedule Management
                             </h3>
                             <p className="text-sm text-gray-600 mb-4">
-                              Organize flight schedules and instructor assignments
+                              Organize flight schedules and instructor
+                              assignments
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Manage Schedule
                             </Button>
                           </CardContent>
@@ -703,7 +803,10 @@ const AdminPage = () => {
                             <p className="text-sm text-gray-600 mb-4">
                               Process and issue student certificates
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Process Certificates
                             </Button>
                           </CardContent>
@@ -718,7 +821,10 @@ const AdminPage = () => {
                             <p className="text-sm text-gray-600 mb-4">
                               Handle student payments and billing
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Process Payments
                             </Button>
                           </CardContent>
@@ -733,7 +839,10 @@ const AdminPage = () => {
                             <p className="text-sm text-gray-600 mb-4">
                               Schedule and track aircraft maintenance
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               View Maintenance
                             </Button>
                           </CardContent>
@@ -748,7 +857,10 @@ const AdminPage = () => {
                             <p className="text-sm text-gray-600 mb-4">
                               Generate academy performance reports
                             </p>
-                            <Button size="sm" className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                            <Button
+                              size="sm"
+                              className="bg-aviation-blue hover:bg-aviation-navy text-white"
+                            >
                               Generate Reports
                             </Button>
                           </CardContent>
@@ -778,8 +890,6 @@ const AdminPage = () => {
                   </CardContent>
                 </Card>
               )}
-
-
 
               {activeTab === "schedule" && (
                 <Card>
