@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,7 @@ import {
   Clock,
   Calendar,
   Plane,
+  Activity,
 } from "lucide-react";
 
 const StudentPage = () => {
@@ -165,13 +167,26 @@ const StudentPage = () => {
         {/* Student Dashboard Header */}
         <div className="bg-white shadow-sm border-b">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="text-center">
-              <h1 className="text-3xl font-bold text-gray-900">
-                Student Portal
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Welcome to your pilot training journey
-              </p>
+            <div className="flex justify-between items-center">
+              <div className="text-center flex-1">
+                <h1 className="text-3xl font-bold text-gray-900">
+                  Student Portal
+                </h1>
+                <p className="text-gray-600 mt-2">
+                  Welcome to your pilot training journey
+                </p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Link to="/dashboard">
+                  <Button
+                    variant="outline"
+                    className="border-aviation-blue text-aviation-blue hover:bg-aviation-blue hover:text-white"
+                  >
+                    <Activity className="h-4 w-4 mr-2" />
+                    Student Dashboard
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
