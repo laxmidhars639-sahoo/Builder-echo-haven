@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Plane } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navigation = () => {
   return (
@@ -38,15 +39,19 @@ const Navigation = () => {
 
           {/* Login/Signup Buttons */}
           <div className="flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              className="text-gray-700 hover:text-aviation-blue"
-            >
-              Login
-            </Button>
-            <Button className="bg-aviation-blue hover:bg-aviation-navy text-white">
-              Sign Up
-            </Button>
+            <Link to="/login">
+              <Button
+                variant="ghost"
+                className="text-gray-700 hover:text-aviation-blue"
+              >
+                Login
+              </Button>
+            </Link>
+            <Link to="/signup">
+              <Button className="bg-aviation-blue hover:bg-aviation-navy text-white">
+                Sign Up
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile menu button */}
