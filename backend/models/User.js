@@ -114,8 +114,7 @@ userSchema.virtual("isLocked").get(function () {
   return !!(this.lockUntil && this.lockUntil > Date.now());
 });
 
-// Index for better query performance
-userSchema.index({ email: 1 });
+// Index for better query performance (email index is automatically created by unique: true)
 userSchema.index({ userType: 1 });
 userSchema.index({ isActive: 1 });
 
