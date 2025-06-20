@@ -91,37 +91,56 @@ const Signup = () => {
 
     setIsLoading(true);
 
-    // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log("Signup attempt:", formData);
+      // Make actual API call to backend
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          password: formData.password,
+          phone: formData.phone,
+          userType: formData.userType,
+          gender: "not-specified", // Default value
+        }),
+      });
 
-      // Create user data from signup form
-      const userData = {
-        id: Date.now(), // Simple ID generation
-        email: formData.email,
-        userType: formData.userType,
-        name: `${formData.firstName} ${formData.lastName}`,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        phone: formData.phone,
-        flightHours: 0, // New user starts with 0 hours
-        enrolledCourses: [],
-        certificates: 0,
-      };
+      const data = await response.json();
 
-      // Store user data in context
-      login(userData);
+      if (!response.ok) {
+        throw new Error(data.message || "Registration failed");
+      }
 
-      // Redirect based on user type
-      if (formData.userType === "student") {
-        navigate("/student");
+      if (data.status === "success") {
+        // Store user data in context
+        const userData = {
+          ...data.data.user,
+          name: `${data.data.user.firstName} ${data.data.user.lastName}`,
+          token: data.data.token,
+        };
+
+        login(userData);
+
+        // Redirect based on user type
+        if (formData.userType === "student") {
+          navigate("/student");
+        } else {
+          navigate("/admin");
+        }
       } else {
-        navigate("/admin");
+        throw new Error(data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Signup error:", error);
-      alert("Signup failed. Please try again.");
+      setErrors({
+        general:
+          error.message ||
+          "Registration failed. Please check your information and try again.",
+      });
     } finally {
       setIsLoading(false);
     }
