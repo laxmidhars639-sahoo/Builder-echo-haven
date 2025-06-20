@@ -174,6 +174,13 @@ const Signup = () => {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* General Error Message */}
+                {errors.general && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-3">
+                    <p className="text-sm text-red-600">{errors.general}</p>
+                  </div>
+                )}
+
                 {/* User Type Selection */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-3">
