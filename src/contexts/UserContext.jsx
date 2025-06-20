@@ -46,6 +46,11 @@ export const UserProvider = ({ children }) => {
       certificates: userData.certificates || 0,
     };
     setUser(userWithTimestamp);
+
+    // Store token in localStorage for API requests
+    if (userData.token) {
+      localStorage.setItem("skytraining_token", userData.token);
+    }
   };
 
   const logout = () => {
