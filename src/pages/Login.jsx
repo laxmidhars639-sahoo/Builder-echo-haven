@@ -62,36 +62,52 @@ const Login = () => {
 
     setIsLoading(true);
 
-    // Simulate API call
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      console.log("Login attempt:", formData);
+      // Make actual API call to backend
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          userType: formData.userType,
+        }),
+      });
 
-      // Simulate user data (in real app, this would come from API)
-      const userData = {
-        id: Date.now(), // Simple ID generation
-        email: formData.email,
-        userType: formData.userType,
-        name: formData.email.split("@")[0], // Extract name from email
-        flightHours:
-          formData.userType === "student" ? Math.floor(Math.random() * 100) : 0,
-        enrolledCourses: [],
-        certificates:
-          formData.userType === "student" ? Math.floor(Math.random() * 3) : 0,
-      };
+      const data = await response.json();
 
-      // Store user data in context
-      login(userData);
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed");
+      }
 
-      // Redirect based on user type
-      if (formData.userType === "student") {
-        navigate("/student");
+      if (data.status === "success") {
+        // Store user data in context
+        const userData = {
+          ...data.data.user,
+          name: `${data.data.user.firstName} ${data.data.user.lastName}`,
+          token: data.data.token,
+        };
+
+        login(userData);
+
+        // Redirect based on user type
+        if (formData.userType === "student") {
+          navigate("/student");
+        } else {
+          navigate("/admin");
+        }
       } else {
-        navigate("/admin");
+        throw new Error(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
-      alert("Login failed. Please try again.");
+      setErrors({
+        general:
+          error.message ||
+          "Login failed. Please check your credentials and try again.",
+      });
     } finally {
       setIsLoading(false);
     }
