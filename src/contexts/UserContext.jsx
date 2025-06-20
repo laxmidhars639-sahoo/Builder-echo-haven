@@ -56,6 +56,7 @@ export const UserProvider = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("skytraining_user");
+    localStorage.removeItem("skytraining_token");
   };
 
   const updateUser = (updatedData) => {
