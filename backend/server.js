@@ -34,7 +34,11 @@ app.use(limiter);
 
 // CORS configuration
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: [
+    process.env.FRONTEND_URL || "http://localhost:3000",
+    "http://localhost:8080", // Vite dev server default port
+    "http://localhost:5173", // Vite alternative port
+  ],
   credentials: true,
   optionsSuccessStatus: 200,
 };
