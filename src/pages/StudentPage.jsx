@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useUser } from "@/contexts/UserContext";
 import Navigation from "@/components/Navigation";
@@ -18,6 +18,7 @@ import {
   Plane,
   Activity,
 } from "lucide-react";
+import { coursesAPI, enrollmentAPI } from "@/utils/api";
 
 const StudentPage = () => {
   const { user, enrollInCourse } = useUser();
