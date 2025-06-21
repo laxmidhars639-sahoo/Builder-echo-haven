@@ -101,10 +101,10 @@ const Signup = () => {
         password: formData.password,
         phone: formData.phone,
         userType: formData.userType,
-        gender: 'not-specified', // Default value
+        gender: "not-specified", // Default value
       });
 
-      if (data.status === 'success') {
+      if (data.status === "success") {
         // Store user data in context
         const userData = {
           ...data.data.user,
@@ -124,14 +124,15 @@ const Signup = () => {
           navigate("/admin");
         }
       } else {
-        throw new Error(data.message || 'Registration failed');
+        throw new Error(data.message || "Registration failed");
       }
     } catch (error) {
       console.error("Signup error:", error);
       setErrors({
-        general: error.message || "Registration failed. Please check your information and try again."
+        general:
+          error.message ||
+          "Registration failed. Please check your information and try again.",
       });
-    }
     } finally {
       setIsLoading(false);
     }
