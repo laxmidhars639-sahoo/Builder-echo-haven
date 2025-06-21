@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { User, Lock, Mail, UserPlus, Shield, Phone } from "lucide-react";
+import { authAPI } from "@/utils/api";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
