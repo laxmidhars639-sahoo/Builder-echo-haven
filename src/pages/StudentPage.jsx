@@ -34,31 +34,84 @@ const StudentPage = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [isLoadingCourses, setIsLoadingCourses] = useState(true);
 
-  // Sample courses data
-  const courses = [
-    {
-      id: "ppl",
-      title: "Private Pilot License (PPL)",
-      duration: "6-12 months",
-      price: "$8,500",
-      description: "Learn to fly single-engine aircraft for personal use",
-    },
-    {
-      id: "cpl",
-      title: "Commercial Pilot License (CPL)",
-      duration: "12-18 months",
-      price: "$25,000",
-      description: "Advance your skills for commercial aviation careers",
-    },
-    {
-      id: "instrument",
-      title: "Instrument Rating (IR)",
-      duration: "3-6 months",
-      price: "$12,000",
-      description: "Fly safely in all weather conditions",
-    },
-  ];
+  // Fetch courses from API
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        setIsLoadingCourses(true);
+        const data = await coursesAPI.getAll();
+
+        if (data.status === "success") {
+          setCourses(data.data.courses || []);
+        } else {
+          console.error("Failed to fetch courses:", data.message);
+          // Fallback to sample data
+          setCourses([
+            {
+              id: "1",
+              title: "Private Pilot License (PPL)",
+              duration: "6 months",
+              price: 15000,
+              description: "Learn to fly single-engine aircraft",
+              level: "Beginner",
+            },
+            {
+              id: "2",
+              title: "Commercial Pilot License (CPL)",
+              duration: "12 months",
+              price: 25000,
+              description: "Advanced training for commercial aviation",
+              level: "Advanced",
+            },
+            {
+              id: "3",
+              title: "Instrument Rating (IR)",
+              duration: "4 months",
+              price: 10000,
+              description: "Fly in all weather conditions",
+              level: "Intermediate",
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error("Error fetching courses:", error);
+        // Fallback to sample data on error
+        setCourses([
+          {
+            id: "1",
+            title: "Private Pilot License (PPL)",
+            duration: "6 months",
+            price: 15000,
+            description: "Learn to fly single-engine aircraft",
+            level: "Beginner",
+          },
+          {
+            id: "2",
+            title: "Commercial Pilot License (CPL)",
+            duration: "12 months",
+            price: 25000,
+            description: "Advanced training for commercial aviation",
+            level: "Advanced",
+          },
+          {
+            id: "3",
+            title: "Instrument Rating (IR)",
+            duration: "4 months",
+            price: 10000,
+            description: "Fly in all weather conditions",
+            level: "Intermediate",
+          },
+        ]);
+      } finally {
+        setIsLoadingCourses(false);
+      }
+    };
+
+    fetchCourses();
+  }, []);
 
   const paymentModes = [
     "Credit Card",
