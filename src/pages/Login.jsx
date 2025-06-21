@@ -64,26 +64,14 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      // Make actual API call to backend
-      const response = await fetch("http://localhost:5000/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          userType: formData.userType,
-        }),
+      // Make actual API call to backend using utility function
+      const data = await authAPI.login({
+        email: formData.email,
+        password: formData.password,
+        userType: formData.userType,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      if (data.status === "success") {
+      if (data.status === 'success') {
         // Store user data in context
         const userData = {
           ...data.data.user,
@@ -93,6 +81,9 @@ const Login = () => {
 
         login(userData);
 
+        // Show success message
+        console.log("Login successful:", userData.name);
+
         // Redirect based on user type
         if (formData.userType === "student") {
           navigate("/student");
@@ -100,15 +91,14 @@ const Login = () => {
           navigate("/admin");
         }
       } else {
-        throw new Error(data.message || "Login failed");
+        throw new Error(data.message || 'Login failed');
       }
     } catch (error) {
       console.error("Login error:", error);
       setErrors({
-        general:
-          error.message ||
-          "Login failed. Please check your credentials and try again.",
+        general: error.message || "Login failed. Please check your credentials and try again."
       });
+    }
     } finally {
       setIsLoading(false);
     }
