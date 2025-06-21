@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node start.js",
     "dev": "nodemon start.js",
+    "dev-simple": "nodemon start-dev.js",
     "server": "node server.js",
     "test": "jest",
     "setup": "npm install && node setup.js",
