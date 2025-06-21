@@ -349,56 +349,85 @@ const StudentPage = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Available Courses
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {courses.map((course) => (
-                <Card
-                  key={course.id}
-                  className="hover:shadow-lg transition-shadow cursor-pointer"
-                  onClick={() =>
-                    setEnrollmentData((prev) => ({
-                      ...prev,
-                      selectedCourse: course.id,
-                    }))
-                  }
-                >
-                  <CardHeader>
-                    <div className="flex items-center space-x-3">
-                      <div className="bg-aviation-blue/10 rounded-lg p-2">
-                        <Plane className="h-6 w-6 text-aviation-blue" />
+
+            {isLoadingCourses ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[1, 2, 3].map((i) => (
+                  <Card key={i} className="animate-pulse">
+                    <CardHeader>
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-gray-200 rounded-lg p-2 w-10 h-10"></div>
+                        <div className="flex-1">
+                          <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                          <div className="h-3 bg-gray-200 rounded w-2/3"></div>
+                        </div>
                       </div>
-                      <div>
-                        <CardTitle className="text-lg">
-                          {course.title}
-                        </CardTitle>
-                        <p className="text-sm text-gray-600">
-                          {course.duration}
-                        </p>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-3 bg-gray-200 rounded mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded mb-4 w-3/4"></div>
+                      <div className="flex justify-between items-center">
+                        <div className="h-6 bg-gray-200 rounded w-20"></div>
+                        <div className="h-8 bg-gray-200 rounded w-16"></div>
                       </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-gray-600 mb-4">{course.description}</p>
-                    <div className="flex justify-between items-center">
-                      <span className="text-2xl font-bold text-aviation-blue">
-                        {course.price}
-                      </span>
-                      <Button
-                        size="sm"
-                        className={`${
-                          enrollmentData.selectedCourse === course.id
-                            ? "bg-green-600 hover:bg-green-700"
-                            : "bg-aviation-blue hover:bg-aviation-navy"
-                        } text-white`}
-                      >
-                        {enrollmentData.selectedCourse === course.id
-                          ? "Selected"
-                          : "Select"}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {courses.map((course) => (
+                  <Card
+                    key={course.id}
+                    className="hover:shadow-lg transition-shadow cursor-pointer"
+                    onClick={() =>
+                      setEnrollmentData((prev) => ({
+                        ...prev,
+                        selectedCourse: course.id,
+                      }))
+                    }
+                  >
+                    <CardHeader>
+                      <div className="flex items-center space-x-3">
+                        <div className="bg-aviation-blue/10 rounded-lg p-2">
+                          <Plane className="h-6 w-6 text-aviation-blue" />
+                        </div>
+                        <div>
+                          <CardTitle className="text-lg">
+                            {course.title}
+                          </CardTitle>
+                          <p className="text-sm text-gray-600">
+                            {course.duration}
+                          </p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <p className="text-gray-600 mb-4">{course.description}</p>
+                      <div className="flex justify-between items-center">
+                        <span className="text-2xl font-bold text-aviation-blue">
+                          {typeof course.price === "number"
+                            ? `$${course.price.toLocaleString()}`
+                            : course.price}
+                        </span>
+                        <Button
+                          size="sm"
+                          className={`${
+                            enrollmentData.selectedCourse === course.id
+                              ? "bg-green-600 hover:bg-green-700"
+                              : "bg-aviation-blue hover:bg-aviation-navy"
+                          } text-white`}
+                        >
+                          {enrollmentData.selectedCourse === course.id
+                            ? "Selected"
+                            : "Select"}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Enrollment Section */}
