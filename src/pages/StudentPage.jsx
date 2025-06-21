@@ -192,45 +192,63 @@ const StudentPage = () => {
     setIsSubmitting(true);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       // Find the selected course details
       const selectedCourse = courses.find(
         (c) => c.id === enrollmentData.selectedCourse,
       );
 
-      // Store enrollment in user context
-      const enrollmentRecord = {
+      // Prepare enrollment data for API
+      const apiEnrollmentData = {
         courseId: enrollmentData.selectedCourse,
-        courseName: selectedCourse?.title,
-        enrollmentDate: new Date().toISOString(),
-        status: "enrolled",
+        studentName: enrollmentData.name,
+        email: enrollmentData.email,
+        phone: enrollmentData.contactNumber,
+        gender: enrollmentData.gender,
         paymentMode: enrollmentData.paymentMode,
-        installments: enrollmentData.installments,
-        progress: 0,
+        installmentPlan: enrollmentData.installments,
       };
 
-      enrollInCourse(enrollmentRecord);
+      // Make API call for enrollment
+      const data = await enrollmentAPI.create(apiEnrollmentData);
 
-      console.log("Enrollment data:", enrollmentData);
-      alert(
-        `Enrollment successful for ${selectedCourse?.title}! You will receive confirmation email shortly.`,
-      );
+      if (data.status === "success") {
+        // Store enrollment in user context
+        const enrollmentRecord = {
+          id: data.data.enrollment.id || Date.now(),
+          courseId: enrollmentData.selectedCourse,
+          courseName: selectedCourse?.title,
+          enrollmentDate: new Date().toISOString(),
+          status: "enrolled",
+          paymentMode: enrollmentData.paymentMode,
+          installments: enrollmentData.installments,
+          progress: 0,
+        };
 
-      // Reset form but keep user data
-      setEnrollmentData({
-        name: user?.name || "",
-        email: user?.email || "",
-        contactNumber: user?.phone || "",
-        gender: "",
-        paymentMode: "",
-        installments: "",
-        selectedCourse: "",
-      });
+        enrollInCourse(enrollmentRecord);
+
+        console.log("Enrollment successful:", data.data);
+        alert(
+          `Enrollment successful for ${selectedCourse?.title}! You will receive confirmation email shortly.`,
+        );
+
+        // Reset form but keep user data
+        setEnrollmentData({
+          name: user?.name || "",
+          email: user?.email || "",
+          contactNumber: user?.phone || "",
+          gender: "",
+          paymentMode: "",
+          installments: "",
+          selectedCourse: "",
+        });
+      } else {
+        throw new Error(data.message || "Enrollment failed");
+      }
     } catch (error) {
       console.error("Enrollment error:", error);
-      alert("Enrollment failed. Please try again.");
+      setErrors({
+        general: error.message || "Enrollment failed. Please try again.",
+      });
     } finally {
       setIsSubmitting(false);
     }
