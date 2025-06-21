@@ -93,30 +93,18 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      // Make actual API call to backend
-      const response = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          password: formData.password,
-          phone: formData.phone,
-          userType: formData.userType,
-          gender: "not-specified", // Default value
-        }),
+      // Make actual API call to backend using utility function
+      const data = await authAPI.register({
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+        phone: formData.phone,
+        userType: formData.userType,
+        gender: 'not-specified', // Default value
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
-
-      if (data.status === "success") {
+      if (data.status === 'success') {
         // Store user data in context
         const userData = {
           ...data.data.user,
@@ -126,6 +114,9 @@ const Signup = () => {
 
         login(userData);
 
+        // Show success message
+        console.log("Registration successful:", userData.name);
+
         // Redirect based on user type
         if (formData.userType === "student") {
           navigate("/student");
@@ -133,15 +124,14 @@ const Signup = () => {
           navigate("/admin");
         }
       } else {
-        throw new Error(data.message || "Registration failed");
+        throw new Error(data.message || 'Registration failed');
       }
     } catch (error) {
       console.error("Signup error:", error);
       setErrors({
-        general:
-          error.message ||
-          "Registration failed. Please check your information and try again.",
+        general: error.message || "Registration failed. Please check your information and try again."
       });
+    }
     } finally {
       setIsLoading(false);
     }
