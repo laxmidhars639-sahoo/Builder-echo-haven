@@ -71,7 +71,7 @@ const Login = () => {
         userType: formData.userType,
       });
 
-      if (data.status === 'success') {
+      if (data.status === "success") {
         // Store user data in context
         const userData = {
           ...data.data.user,
@@ -91,14 +91,15 @@ const Login = () => {
           navigate("/admin");
         }
       } else {
-        throw new Error(data.message || 'Login failed');
+        throw new Error(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Login error:", error);
       setErrors({
-        general: error.message || "Login failed. Please check your credentials and try again."
+        general:
+          error.message ||
+          "Login failed. Please check your credentials and try again.",
       });
-    }
     } finally {
       setIsLoading(false);
     }
